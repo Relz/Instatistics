@@ -1,0 +1,68 @@
+@import '../../Style/variables.pcss';
+@import '../../Style/mixin.pcss';
+
+.root {
+  display: flex;
+  flex-grow: 1;
+  position: relative;
+  width: 100%;
+}
+
+.appBar {
+  position: absolute;
+  transition: cubic-bezier(0.4, 0, 0.6, 1) 195ms;
+}
+
+.appBarShift {
+  width: calc(100% - $drawerWidth) !important;
+  margin-left: $drawerWidth;
+  transition-property: margin, width;
+  transition-duration: 225ms, 225ms;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1), cubic-bezier(0, 0, 0.2, 1);
+  transition-delay: 0ms, 0ms;
+}
+
+.menuButton {
+  margin-left: 12px;
+  margin-right: 20px;
+}
+
+.hide {
+  display: none !important;
+}
+
+.drawer {
+  display: block;
+}
+
+.drawerPaper {
+  position: absolute;
+  width: $drawerWidth;
+}
+
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 8px;
+  min-height: 64px;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 24px;
+  margin-left: 0;
+  transition-property: margin;
+  transition-duration: 195ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+  transition-delay: 0ms;
+}
+
+.contentShift {
+  margin-left: $drawerWidth;
+  transition-property: margin;
+  transition-duration: 225ms;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  transition-delay: 0ms;
+}
+

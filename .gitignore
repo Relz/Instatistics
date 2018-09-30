@@ -1,0 +1,17 @@
+# JetBrains IDEs
+# User-specific stuff
+.idea/**/workspace.xml
+.idea/**/dictionaries
+.idea/**/codeStyles
+
+# Npm node modules directory
+/node_modules
+
+# Build directory
+/build
+
+# typings-for-css-modules-loader
+*.pcss.d.ts
+
+# Coverage report
+/coverage

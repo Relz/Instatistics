@@ -1,0 +1,135 @@
+{
+	"extends": ["tslint:all", "tslint-react"],
+	"rulesDirectory": [
+		"../node_modules/vrsource-tslint-rules/rules/",
+		"../node_modules/tslint-consistent-codestyle/rules/",
+		"../node_modules/tslint-eslint-rules/dist/rules/"
+	],
+	"rules": {
+		// Overrides
+		"indent": [true, "tabs", 4],
+		"linebreak-style": [true, "LF"],
+		"quotemark": [true, "single", "avoid-escape", "jsx-double"],
+		"trailing-comma": [
+			true,
+			{
+				"multiline": "never",
+				"singleline": "never"
+			}
+		],
+		"variable-name": [true, "ban-keywords", "check-format", "allow-pascal-case", "allow-leading-underscore"],
+		"array-type": [true, "array"],
+		"comment-format": [true, "check-space"],
+		"member-ordering": [
+			true,
+			{
+				"order": [
+					"constructor",
+					"public-instance-method",
+					"public-static-method",
+					"protected-instance-method",
+					"protected-static-method",
+					"private-instance-method",
+					"private-static-method"
+				],
+				"alphabetize": false
+			}
+		],
+		"no-submodule-imports": false,
+		"file-name-casing": false,
+		"no-unused-variable": false,
+		"no-import-side-effect": [
+			true,
+			{
+				"ignore-module": "(\\.css)$"
+			}
+		],
+		"jsx-no-multiline-js": false,
+
+		// Custom rules
+		"class-member-naming": true,
+		"ascii-only": false,
+		"import-path": true,
+		"no-public-class-fields": true,
+
+		// tslint-consistent-codestyle https://github.com/ajafff/tslint-consistent-codestyle
+		"no-collapsible-if": true,
+		"no-var-before-return": true,
+		"no-static-this": true,
+		"no-else-after-return": true,
+		"no-unnecessary-else": true,
+
+		// tslint-eslint-rules https://github.com/buzinas/tslint-eslint-rules
+		"valid-typeof": true,
+		"no-multi-spaces": true,
+		"no-unexpected-multiline": true,
+		"no-constant-condition": true,
+		"no-extra-semi": true,
+		"no-duplicate-case": true,
+		"no-control-regex": true,
+		"no-empty-character-class": true,
+		"no-ex-assign": true,
+		"no-invalid-regexp": true,
+		"no-regex-spaces": true,
+		"no-duplicate-imports": false,
+
+		// vrsource-tslint-rules https://github.com/vrsource/vrsource-tslint-rules
+		"ext-variable-name": [
+			true,
+			["class", "pascal"],
+			[
+				"interface",
+				"pascal",
+				{
+					"regex": "^I.*$"
+				}
+			],
+			["parameter", "camel"],
+			["property", "private", "static", "camel", "allow-leading-underscore"],
+			["property", "protected", "static", "camel", "allow-leading-underscore"],
+			["property", "private", "camel", "allow-leading-underscore"],
+			["property", "protected", "camel", "allow-leading-underscore"],
+			["property", "static", "camel"],
+			["variable", "local", "camel"],
+			["variable", "const", ""],
+			["variable", "camel"],
+			["method", "private", "camel"],
+			["method", "protected", "camel"],
+			["function", "camel"],
+			["default", "camel"]
+		],
+		"literal-spacing": [
+			true,
+			{
+				"array": ["never"],
+				"object": ["always"],
+				"import": ["always"]
+			}
+		],
+		"max-params": [true, 5],
+		"prefer-literal": [true, "object", "function", "array"],
+
+		// Disabled tslint rules
+		"no-unnecessary-class": false,
+		"no-implicit-dependencies": false,
+		"max-classes-per-file": [false],
+		"ban": false,
+		"callable-types": false,
+		"completed-docs": [false],
+		"file-header": [false],
+		"prefer-for-of": false,
+		"prefer-function-over-method": false,
+		"import-blacklist": false,
+		"no-empty-interface": false,
+		"no-inferrable-types": [false],
+		"object-literal-shorthand": false,
+
+		// Disabled formatting rules: handled by Prettier https://github.com/prettier/prettier
+		"number-literal-format": false,
+		"object-literal-key-quotes": false,
+		"semicolon": false,
+		"max-line-length": false,
+		"align": false,
+		"newline-per-chained-call": false
+	}
+}

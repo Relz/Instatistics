@@ -1,0 +1,21 @@
+{
+	"compilerOptions": {
+		"sourceMap": true,
+		"target": "esnext",
+		"jsx": "react",
+		"module": "esnext",
+		"moduleResolution": "node",
+		"experimentalDecorators": true,
+		"declaration": false,
+		"removeComments": true,
+		"noImplicitReturns": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"strict": true,
+		"outDir": "../build",
+		"lib": ["esnext", "dom"],
+		"baseUrl": "./src",
+		"esModuleInterop": true
+	},
+	"exclude": ["build", "./node_modules"]
+}
