@@ -1,5 +1,15 @@
 import classNames from 'classnames';
-import { AppBar, Divider, Drawer, IconButton, List, Toolbar, Typography } from '@material-ui/core';
+import {
+	AppBar,
+	Divider,
+	Drawer,
+	IconButton,
+	List,
+	ListItem,
+	ListItemText,
+	Toolbar,
+	Typography
+} from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import MenuIcon from '@material-ui/icons/Menu';
 import * as React from 'react';
@@ -11,6 +21,8 @@ import { Component } from '../Component';
 import { setDrawerOpened } from '../../Redux/Actions/DrawerActions';
 import * as styles from './App.pcss';
 import { Dispatch } from 'redux';
+import { Link } from 'react-router-dom';
+import { InsertChart } from '@material-ui/icons';
 
 interface IExternalProps {}
 
@@ -65,6 +77,14 @@ class App extends Component<IExternalProps, {}, ActualProps> {
 					}}
 				>
 					<div className={styles.drawerHeader}>
+						<Link to="/" className={styles.logoBlock}>
+							<InsertChart />
+							<div>
+								<Typography variant="title" color="inherit" noWrap={true}>
+									Instatistics
+								</Typography>
+							</div>
+						</Link>
 						<IconButton onClick={this.handleDrawerClose}>
 							<ChevronLeftIcon />
 						</IconButton>
