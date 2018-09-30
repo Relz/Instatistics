@@ -6,6 +6,7 @@ import {
 	IconButton,
 	List,
 	ListItem,
+	ListItemIcon,
 	ListItemText,
 	Toolbar,
 	Typography
@@ -22,7 +23,7 @@ import { setDrawerOpened } from '../../Redux/Actions/DrawerActions';
 import * as styles from './App.pcss';
 import { Dispatch } from 'redux';
 import { Link } from 'react-router-dom';
-import { InsertChart } from '@material-ui/icons';
+import { AddBox, ExitToApp, InsertChart } from '@material-ui/icons';
 
 interface IExternalProps {}
 
@@ -90,7 +91,22 @@ class App extends Component<IExternalProps, {}, ActualProps> {
 						</IconButton>
 					</div>
 					<Divider />
-					<List />
+					<List>
+						<Link to="add_account">
+							<ListItem button={true}>
+								<ListItemIcon>
+									<AddBox />
+								</ListItemIcon>
+								<ListItemText primary="Add an account" />
+							</ListItem>
+						</Link>
+						<ListItem button={true}>
+							<ListItemIcon>
+								<ExitToApp />
+							</ListItemIcon>
+							<ListItemText primary="Sign out" />
+						</ListItem>
+					</List>
 				</Drawer>
 				<main
 					className={classNames(styles.content, {
