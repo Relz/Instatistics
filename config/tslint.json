@@ -41,10 +41,14 @@
 		"no-import-side-effect": [
 			true,
 			{
-				"ignore-module": "(\\.css)$"
+				"ignore-module": "(\\.pcss)$"
 			}
 		],
 		"jsx-no-multiline-js": false,
+		"no-unbound-method": false,
+		"no-unsafe-any": false,
+		"strict-boolean-expressions": false,
+		"match-default-export-name": false,
 
 		// Custom rules
 		"class-member-naming": true,

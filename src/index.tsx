@@ -5,9 +5,9 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import { Store } from 'redux';
 import { AppConnected } from './Components/App/App';
+import './Index.pcss';
 import { IState } from './Redux/States/IState';
 import { StoreHelper } from './Redux/StoreHelper';
-import './Index.pcss';
 
 const history: History = createBrowserHistory();
 const store: Store<IState> = StoreHelper.createStore(history);

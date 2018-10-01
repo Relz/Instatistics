@@ -16,8 +16,8 @@ import {
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import { translations } from '../Translations/Translations';
-import { IState } from './States/IState';
 import { drawerReducer } from './Reducers/drawerReducer';
+import { IState } from './States/IState';
 
 export class StoreHelper {
 	private static readonly _locale: string = 'ru';
