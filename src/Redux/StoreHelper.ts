@@ -7,11 +7,11 @@ import {
 	applyMiddleware,
 	combineReducers,
 	createStore,
-	GenericStoreEnhancer,
 	Middleware,
 	Reducer,
 	ReducersMapObject,
-	Store
+	Store,
+	StoreEnhancer
 } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
@@ -30,7 +30,6 @@ export class StoreHelper {
 		drawer: drawerReducer
 	};
 
-	// tslint:disable-next-line: no-unsafe-any
 	private static readonly _vendorMiddlewares: Middleware[] = [thunk];
 
 	private static readonly _middlewares: Middleware[] = [];
@@ -46,11 +45,11 @@ export class StoreHelper {
 		return combineReducers({
 			...StoreHelper._vendorReducers,
 			...StoreHelper._reducers
-		});
+		} as any);
 	}
 
-	private static createMiddleware(history: History): GenericStoreEnhancer {
-		let result: GenericStoreEnhancer = applyMiddleware(
+	private static createMiddleware(history: History): StoreEnhancer {
+		let result: StoreEnhancer = applyMiddleware(
 			routerMiddleware(history),
 			...StoreHelper._vendorMiddlewares,
 			...StoreHelper._middlewares

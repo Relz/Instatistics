@@ -181,7 +181,7 @@ const mapStateToProps: MapStateToProps<Partial<IReduxProps>, IExternalProps, ISt
 });
 
 const mapDispatchToProps: MapDispatchToProps<Partial<IReduxProps>, IExternalProps> = (
-	dispatch: Dispatch<boolean>
+	dispatch: Dispatch
 ): Partial<IReduxProps> => ({
 	setDrawerOpened: (value: boolean): Action<boolean> => dispatch(setDrawerOpened(value)),
 	// tslint:disable-next-line:no-any

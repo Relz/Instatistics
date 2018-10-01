@@ -13,7 +13,7 @@
 		"noUnusedParameters": true,
 		"strict": true,
 		"outDir": "../build",
-		"lib": ["esnext", "dom"],
+		"lib": ["esnext", "dom", "es2015.iterable"],
 		"baseUrl": "./src",
 		"esModuleInterop": true
 	},
