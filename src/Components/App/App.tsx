@@ -8,6 +8,7 @@ import {
 	ListItem,
 	ListItemIcon,
 	ListItemText,
+	ListSubheader,
 	Toolbar,
 	Typography
 } from '@material-ui/core';
@@ -36,14 +37,23 @@ interface IReduxProps extends IDefaultProps {
 
 type ActualProps = IReduxProps;
 
-class App extends Component<IExternalProps, {}, ActualProps> {
+interface IInternalState {
+	pageTitle: string;
+}
+
+class App extends Component<IExternalProps, IInternalState, ActualProps> {
 	public static readonly defaultProps: IDefaultProps = {};
 
 	public constructor(props: IExternalProps) {
 		super(props);
 
+		this.state = {
+			pageTitle: 'page.welcome.title'
+		};
+
 		this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
 		this.handleDrawerClose = this.handleDrawerClose.bind(this);
+		this.setPageTitle = this.setPageTitle.bind(this);
 	}
 
 	public render(): JSX.Element {
@@ -64,7 +74,7 @@ class App extends Component<IExternalProps, {}, ActualProps> {
 							<MenuIcon />
 						</IconButton>
 						<Typography variant="title" color="inherit" noWrap={true}>
-							Page title
+							<Translate value={this.state.pageTitle} />
 						</Typography>
 					</Toolbar>
 				</AppBar>
@@ -78,7 +88,7 @@ class App extends Component<IExternalProps, {}, ActualProps> {
 					}}
 				>
 					<div className={styles.drawerHeader}>
-						<Link to="/" className={styles.logoBlock}>
+						<Link to="/" className={styles.logoBlock} onClick={() => this.setPageTitle('welcome')}>
 							<InsertChart />
 							<div>
 								<Typography variant="title" color="inherit" noWrap={true}>
@@ -92,7 +102,7 @@ class App extends Component<IExternalProps, {}, ActualProps> {
 					</div>
 					<Divider />
 					<List>
-						<Link to="add_account">
+						<Link to="add_account" onClick={() => this.setPageTitle('add_account')}>
 							<ListItem button={true}>
 								<ListItemIcon>
 									<AddBox />
@@ -125,6 +135,10 @@ class App extends Component<IExternalProps, {}, ActualProps> {
 
 	private handleDrawerClose(): void {
 		this.properties.setDrawerOpened(false);
+	}
+
+	private setPageTitle(pageName: string): void {
+		this.setState({ pageTitle: `page.${pageName}.title` });
 	}
 }
 
