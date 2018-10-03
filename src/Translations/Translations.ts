@@ -8,6 +8,8 @@ export const translations: ITranslations = {
 		drawer_menu_language_title: 'Language',
 		drawer_menu_signOut: 'Sign out',
 		page_addAccount_title: 'Add an account',
+		page_welcome_body_add: 'Or add another one.',
+		page_welcome_body_choose: 'Choose an account to show statistics.',
 		page_welcome_title: 'Welcome to Instatistics!',
 		service_name: 'Instatistics'
 	},
@@ -18,6 +20,8 @@ export const translations: ITranslations = {
 		drawer_menu_language_title: 'Язык',
 		drawer_menu_signOut: 'Выход',
 		page_addAccount_title: 'Добавить аккаунт',
+		page_welcome_body_add: 'Или добавьте новый.',
+		page_welcome_body_choose: 'Выберите аккаунт для показа статистики.',
 		page_welcome_title: 'Добро пожаловать в Instatistics!',
 		service_name: 'Instatistics'
 	}

@@ -7,6 +7,8 @@ export interface ITranslation {
 	drawer_menu_language_title: string;
 	drawer_menu_language_en: string;
 	drawer_menu_language_ru: string;
+	page_welcome_body_add: string;
+	page_welcome_body_choose: string;
 	page_welcome_title: string;
 	page_addAccount_title: string;
 }
