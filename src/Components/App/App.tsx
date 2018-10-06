@@ -11,7 +11,7 @@ import {
 	Toolbar,
 	Typography
 } from '@material-ui/core';
-import { AddBox, ExitToApp, InsertChart } from '@material-ui/icons';
+import { AddBox, ExitToApp, InsertChart, Person } from '@material-ui/icons';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import MenuIcon from '@material-ui/icons/Menu';
 import autobind from 'autobind-decorator';
@@ -24,7 +24,10 @@ import { Link, Route, withRouter } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { Action } from 'redux-actions';
 import { ActionAlias } from '../../Core/Delegates/ActionAliases';
+import { Account } from '../../Models/Account/Account';
+import { IAccount } from '../../Models/Account/IAccount';
 import { setDrawerOpened } from '../../Redux/Actions/DrawerActions';
+import { setAccounts, setActiveAccountIndex } from '../../Redux/Actions/UserActions';
 import { IState } from '../../Redux/States/IState';
 import { AddAccountPageConnected } from '../AddAccountPage/AddAccountPage';
 import { Component } from '../Component';
@@ -36,7 +39,11 @@ interface IExternalProps {}
 interface IDefaultProps extends IExternalProps {}
 
 interface IReduxProps extends IDefaultProps {
+	accounts: IAccount[];
+	activeAccountIndex?: number;
 	drawerOpened: boolean;
+	setAccounts(value: IAccount[]): void;
+	setActiveAccountIndex(value: number | undefined): void;
 	setDrawerOpened(value: boolean): void;
 	setLocale(value: string): void;
 }
@@ -66,6 +73,12 @@ class App extends Component<IExternalProps, IInternalState, ActualProps> {
 				this.languagesHandlers.set(languageName, this.handleChooseLanguage.bind(this, languageName));
 			}
 		);
+
+		this.properties.setAccounts([
+			new Account('login1', 'password1'),
+			new Account('login2', 'password2'),
+			new Account('login3', 'password3')
+		]);
 	}
 
 	public render(): JSX.Element {
@@ -122,6 +135,18 @@ class App extends Component<IExternalProps, IInternalState, ActualProps> {
 								<ListItemText primary={<Translate value="drawer_menu_addAccount" />} />
 							</ListItem>
 						</Link>
+						{this.properties.accounts.map(
+							(account: IAccount, index: number): JSX.Element => (
+								<Link to="/statistics" onClick={this.handleChooseAccount.bind(this, index)}>
+									<ListItem key={index} button={true}>
+										<ListItemIcon>
+											<Person />
+										</ListItemIcon>
+										<ListItemText primary={account.login} />
+									</ListItem>
+								</Link>
+							)
+						)}
 						<ListItem button={true} onClick={this.handleSignOutClick}>
 							<ListItemIcon>
 								<ExitToApp />
@@ -181,17 +206,28 @@ class App extends Component<IExternalProps, IInternalState, ActualProps> {
 	private handleSignOutClick(): void {
 		console.log('Send sign out request');
 	}
+
+	@autobind
+	private handleChooseAccount(accountIndex: number): void {
+		this.properties.setActiveAccountIndex(accountIndex);
+		this.setPageTitle('statistics');
+	}
 }
 
 const mapStateToProps: MapStateToProps<Partial<IReduxProps>, IExternalProps, IState> = (
 	state: IState
 ): Partial<IReduxProps> => ({
+	accounts: state.user.accounts,
+	activeAccountIndex: state.user.activeAccountIndex,
 	drawerOpened: state.drawer.drawerOpened
 });
 
 const mapDispatchToProps: MapDispatchToProps<Partial<IReduxProps>, IExternalProps> = (
 	dispatch: Dispatch
 ): Partial<IReduxProps> => ({
+	setAccounts: (value: IAccount[]): Action<IAccount[]> => dispatch(setAccounts(value)),
+	setActiveAccountIndex: (value: number | undefined): Action<number | undefined> =>
+		dispatch(setActiveAccountIndex(value)),
 	setDrawerOpened: (value: boolean): Action<boolean> => dispatch(setDrawerOpened(value)),
 	// tslint:disable-next-line:no-any
 	setLocale: (value: string): Action<string> => dispatch(setLocale(value) as any)

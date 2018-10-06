@@ -17,6 +17,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import { translations } from '../Translations/Translations';
 import { drawerReducer } from './Reducers/drawerReducer';
+import { userReducer } from './Reducers/userReducer';
 import { IState } from './States/IState';
 
 export class StoreHelper {
@@ -27,7 +28,8 @@ export class StoreHelper {
 	};
 
 	private static readonly _reducers: ReducersMapObject = {
-		drawer: drawerReducer
+		drawer: drawerReducer,
+		user: userReducer
 	};
 
 	private static readonly _vendorMiddlewares: Middleware[] = [thunk];
