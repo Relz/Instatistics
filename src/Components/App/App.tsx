@@ -179,9 +179,7 @@ class App extends Component<IExternalProps, IInternalState, ActualProps> {
 									onClick={this.languagesHandlers.get(languageName)}
 									selected={this.properties.locale === languageName}
 								>
-									<ListItemText
-										primary={<Translate value={`drawer_menu_language_${languageName}`} />}
-									/>
+									<ListItemText primary={<Translate value={`language_${languageName}`} />} />
 								</ListItem>
 							)
 						)}

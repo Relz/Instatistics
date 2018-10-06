@@ -1,4 +1,6 @@
 import { IAccount } from '../../../Models/Account/IAccount';
+import { IUser } from '../../../Models/User/IUser';
+import { User } from '../../../Models/User/User';
 import { IUserState } from './IUserState';
 
 export class UserState implements IUserState {
@@ -18,5 +20,14 @@ export class UserState implements IUserState {
 
 	public set activeAccountIndex(value: number | undefined) {
 		this._activeAccountIndex = value;
+	}
+
+	private _user: IUser = new User();
+	public get user(): IUser {
+		return this._user;
+	}
+
+	public set user(value: IUser) {
+		this._user = value;
 	}
 }

@@ -5,6 +5,8 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import { Store } from 'redux';
 import { AppConnected } from './Components/App/App';
+import { SignInUpConnected } from './Components/SignInUp/SignInUp';
+import { StringHelper } from './Core/StringHelper';
 import './Index.pcss';
 import { IState } from './Redux/States/IState';
 import { StoreHelper } from './Redux/StoreHelper';
@@ -15,7 +17,7 @@ const store: Store<IState> = StoreHelper.createStore(history);
 render(
 	<Provider store={store}>
 		<ConnectedRouter history={history}>
-			<AppConnected />
+			{StringHelper.isEmpty(store.getState().user.user.login) ? <SignInUpConnected /> : <AppConnected />}
 		</ConnectedRouter>
 	</Provider>,
 	document.getElementById('root')
