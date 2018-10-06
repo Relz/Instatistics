@@ -42,6 +42,7 @@ interface IReduxProps extends IDefaultProps {
 	accounts: IAccount[];
 	activeAccountIndex?: number;
 	drawerOpened: boolean;
+	locale: string;
 	setAccounts(value: IAccount[]): void;
 	setActiveAccountIndex(value: number | undefined): void;
 	setDrawerOpened(value: boolean): void;
@@ -116,7 +117,11 @@ class App extends Component<IExternalProps, IInternalState, ActualProps> {
 						<Link to="/" className={styles.logoBlock} onClick={this.setPageTitle.bind(this, 'welcome')}>
 							<InsertChart />
 							<div>
-								<Typography variant="title" color="inherit" noWrap={true}>
+								<Typography
+									variant="title"
+									color={this.state.pageTitle === 'page_welcome_title' ? 'inherit' : 'default'}
+									noWrap={true}
+								>
 									<Translate value="service_name" />
 								</Typography>
 							</div>
@@ -128,7 +133,7 @@ class App extends Component<IExternalProps, IInternalState, ActualProps> {
 					<Divider />
 					<List>
 						<Link to="/add_account" onClick={this.setPageTitle.bind(this, 'addAccount')}>
-							<ListItem button={true}>
+							<ListItem button={true} selected={this.state.pageTitle === 'page_addAccount_title'}>
 								<ListItemIcon>
 									<AddBox />
 								</ListItemIcon>
@@ -137,8 +142,14 @@ class App extends Component<IExternalProps, IInternalState, ActualProps> {
 						</Link>
 						{this.properties.accounts.map(
 							(account: IAccount, index: number): JSX.Element => (
-								<Link to="/statistics" onClick={this.handleChooseAccount.bind(this, index)}>
-									<ListItem key={index} button={true}>
+								<Link to="/statistics" key={index} onClick={this.handleChooseAccount.bind(this, index)}>
+									<ListItem
+										button={true}
+										selected={
+											this.properties.activeAccountIndex === index &&
+											this.state.pageTitle === 'page_statistics_title'
+										}
+									>
 										<ListItemIcon>
 											<Person />
 										</ListItemIcon>
@@ -162,7 +173,12 @@ class App extends Component<IExternalProps, IInternalState, ActualProps> {
 						</ListSubheader>
 						{App.languagesNames.map(
 							(languageName: string, index: number): JSX.Element => (
-								<ListItem key={index} button={true} onClick={this.languagesHandlers.get(languageName)}>
+								<ListItem
+									key={index}
+									button={true}
+									onClick={this.languagesHandlers.get(languageName)}
+									selected={this.properties.locale === languageName}
+								>
 									<ListItemText
 										primary={<Translate value={`drawer_menu_language_${languageName}`} />}
 									/>
@@ -219,7 +235,8 @@ const mapStateToProps: MapStateToProps<Partial<IReduxProps>, IExternalProps, ISt
 ): Partial<IReduxProps> => ({
 	accounts: state.user.accounts,
 	activeAccountIndex: state.user.activeAccountIndex,
-	drawerOpened: state.drawer.drawerOpened
+	drawerOpened: state.drawer.drawerOpened,
+	locale: state.i18n.locale
 });
 
 const mapDispatchToProps: MapDispatchToProps<Partial<IReduxProps>, IExternalProps> = (
