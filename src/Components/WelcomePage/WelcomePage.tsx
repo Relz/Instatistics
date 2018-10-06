@@ -1,10 +1,10 @@
+import { Typography } from '@material-ui/core';
 import * as React from 'react';
 import { ComponentClass } from 'react';
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import { Translate } from 'react-redux-i18n';
 import { IState } from '../../Redux/States/IState';
 import { Component } from '../Component';
-import { Typography } from '@material-ui/core';
-import { Translate } from 'react-redux-i18n';
 
 interface IExternalProps {}
 

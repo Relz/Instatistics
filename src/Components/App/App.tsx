@@ -26,6 +26,7 @@ import { Action } from 'redux-actions';
 import { ActionAlias } from '../../Core/Delegates/ActionAliases';
 import { setDrawerOpened } from '../../Redux/Actions/DrawerActions';
 import { IState } from '../../Redux/States/IState';
+import { AddAccountPageConnected } from '../AddAccountPage/AddAccountPage';
 import { Component } from '../Component';
 import { WelcomePageConnected } from '../WelcomePage/WelcomePage';
 import * as styles from './App.pcss';
@@ -152,6 +153,7 @@ class App extends Component<IExternalProps, IInternalState, ActualProps> {
 				>
 					<div className={styles.drawerHeader} />
 					<Route exact={true} path="/" component={WelcomePageConnected} />
+					<Route path="/add_account" component={AddAccountPageConnected} />
 				</main>
 			</div>
 		);
@@ -193,4 +195,5 @@ const mapDispatchToProps: MapDispatchToProps<Partial<IReduxProps>, IExternalProp
 export const AppConnected: ComponentClass<IExternalProps> = withRouter(connect(
 	mapStateToProps,
 	mapDispatchToProps
+	// tslint:disable-next-line:no-any
 )(App) as any);
