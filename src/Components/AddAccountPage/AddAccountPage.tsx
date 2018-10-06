@@ -9,6 +9,7 @@ import { StringHelper } from '../../Core/StringHelper';
 import { IState } from '../../Redux/States/IState';
 import { Component } from '../Component';
 import * as styles from './AddAccountPage.pcss';
+import autobind from 'autobind-decorator';
 
 interface IExternalProps {}
 
@@ -37,11 +38,6 @@ class AddAccountPage extends Component<IExternalProps, IInternalState, ActualPro
 			password: '',
 			showDisablingExplanation: false
 		};
-
-		this.handleNameChange = this.handleNameChange.bind(this);
-		this.handlePasswordChange = this.handlePasswordChange.bind(this);
-		this.handleAddButtonClick = this.handleAddButtonClick.bind(this);
-		this.handleShowDisablingExplanation = this.handleShowDisablingExplanation.bind(this);
 	}
 
 	public render(): JSX.Element {
@@ -118,22 +114,26 @@ class AddAccountPage extends Component<IExternalProps, IInternalState, ActualPro
 		);
 	}
 
+	@autobind
 	private handleNameChange(event: any): void {
 		this.setState({
 			name: event.target.value
 		});
 	}
 
+	@autobind
 	private handlePasswordChange(event: any): void {
 		this.setState({
 			password: event.target.value
 		});
 	}
 
+	@autobind
 	private handleAddButtonClick(): void {
 		console.log('Send add account request');
 	}
 
+	@autobind
 	private handleShowDisablingExplanation(): void {
 		this.setState({
 			showDisablingExplanation: true

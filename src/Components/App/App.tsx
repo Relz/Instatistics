@@ -122,7 +122,7 @@ class App extends Component<IExternalProps, IInternalState, ActualProps> {
 								<ListItemText primary={<Translate value="drawer_menu_addAccount" />} />
 							</ListItem>
 						</Link>
-						<ListItem button={true}>
+						<ListItem button={true} onClick={this.handleSignOutClick}>
 							<ListItemIcon>
 								<ExitToApp />
 							</ListItemIcon>
@@ -175,6 +175,11 @@ class App extends Component<IExternalProps, IInternalState, ActualProps> {
 
 	private handleChooseLanguage(language: string): void {
 		this.properties.setLocale(language);
+	}
+
+	@autobind
+	private handleSignOutClick(): void {
+		console.log('Send sign out request');
 	}
 }
 
