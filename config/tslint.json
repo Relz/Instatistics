@@ -38,6 +38,7 @@
 		"no-submodule-imports": false,
 		"file-name-casing": false,
 		"no-unused-variable": false,
+		"no-unused-expression": false,
 		"no-import-side-effect": [
 			true,
 			{

@@ -24,6 +24,7 @@ import { InsertChart } from '@material-ui/icons';
 import { ActionAlias } from '../../Core/Delegates/ActionAliases';
 import { Action } from 'redux-actions';
 import { Dispatch } from 'redux';
+import { XMLHttpRequestHelper } from '../../Core/XMLHttpRequestHelper';
 
 interface IExternalProps {}
 
@@ -285,12 +286,40 @@ class SignInUp extends Component<IExternalProps, IInternalState, ActualProps> {
 
 	@autobind
 	private handleSignInButtonClick(): void {
-		console.log('Send sign in request');
+		const data = {
+			email: this.state.name,
+			password: this.state.password
+		};
+		XMLHttpRequestHelper.request(
+			'POST',
+			'http://localhost:5001/auth/sign-in',
+			data,
+			(token: string): void => {
+				console.log(token);
+			},
+			(progressEvent: ProgressEvent): void => {
+				console.log(progressEvent);
+			}
+		);
 	}
 
 	@autobind
 	private handleSignUpButtonClick(): void {
-		console.log('Send sign up request');
+		const data = {
+			email: this.state.name,
+			password: this.state.password
+		};
+		XMLHttpRequestHelper.request(
+			'POST',
+			'http://localhost:5001/auth/sign-up',
+			data,
+			(token: string): void => {
+				console.log(token);
+			},
+			(progressEvent: ProgressEvent): void => {
+				console.log(progressEvent);
+			}
+		);
 	}
 
 	@autobind
