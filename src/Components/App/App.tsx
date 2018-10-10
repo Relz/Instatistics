@@ -27,7 +27,7 @@ import { ActionAlias } from '../../Core/Delegates/ActionAliases';
 import { Account } from '../../Models/Account/Account';
 import { IAccount } from '../../Models/Account/IAccount';
 import { setDrawerOpened } from '../../Redux/Actions/DrawerActions';
-import { setAccounts, setActiveAccountIndex } from '../../Redux/Actions/UserActions';
+import { setAccounts, setActiveAccountIndex, setToken } from '../../Redux/Actions/UserActions';
 import { IState } from '../../Redux/States/IState';
 import { AddAccountPageConnected } from '../AddAccountPage/AddAccountPage';
 import { Component } from '../Component';
@@ -48,6 +48,7 @@ interface IReduxProps extends IDefaultProps {
 	setActiveAccountIndex(value: number | undefined): void;
 	setDrawerOpened(value: boolean): void;
 	setLocale(value: string): void;
+	setToken(value: string): void;
 }
 
 type ActualProps = IReduxProps;
@@ -221,7 +222,7 @@ class App extends Component<IExternalProps, IInternalState, ActualProps> {
 
 	@autobind
 	private handleSignOutClick(): void {
-		console.log('Send sign out request');
+		this.properties.setToken('');
 	}
 
 	@autobind
@@ -248,7 +249,8 @@ const mapDispatchToProps: MapDispatchToProps<Partial<IReduxProps>, IExternalProp
 		dispatch(setActiveAccountIndex(value)),
 	setDrawerOpened: (value: boolean): Action<boolean> => dispatch(setDrawerOpened(value)),
 	// tslint:disable-next-line:no-any
-	setLocale: (value: string): Action<string> => dispatch(setLocale(value) as any)
+	setLocale: (value: string): Action<string> => dispatch(setLocale(value) as any),
+	setToken: (value: string): Action<string> => dispatch(setToken(value) as any)
 });
 
 export const AppConnected: ComponentClass<IExternalProps> = withRouter(connect(
