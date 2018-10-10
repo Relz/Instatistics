@@ -25,6 +25,7 @@ import { ActionAlias } from '../../Core/Delegates/ActionAliases';
 import { Action } from 'redux-actions';
 import { Dispatch } from 'redux';
 import { XMLHttpRequestHelper } from '../../Core/XMLHttpRequestHelper';
+import { setToken } from '../../Redux/Actions/UserActions';
 
 interface IExternalProps {}
 
@@ -33,6 +34,7 @@ interface IDefaultProps extends IExternalProps {}
 interface IReduxProps extends IDefaultProps {
 	i18n: any;
 	setLocale(value: string): void;
+	setToken(value: string): void;
 }
 
 type ActualProps = IReduxProps;
@@ -295,7 +297,7 @@ class SignInUp extends Component<IExternalProps, IInternalState, ActualProps> {
 			'http://localhost:5001/auth/sign-in',
 			data,
 			(token: string): void => {
-				console.log(token);
+				this.properties.setToken(token);
 			},
 			(progressEvent: ProgressEvent): void => {
 				console.log(progressEvent);
@@ -314,7 +316,7 @@ class SignInUp extends Component<IExternalProps, IInternalState, ActualProps> {
 			'http://localhost:5001/auth/sign-up',
 			data,
 			(token: string): void => {
-				console.log(token);
+				this.properties.setToken(token);
 			},
 			(progressEvent: ProgressEvent): void => {
 				console.log(progressEvent);
@@ -342,7 +344,8 @@ const mapDispatchToProps: MapDispatchToProps<Partial<IReduxProps>, IExternalProp
 	dispatch: Dispatch
 ): Partial<IReduxProps> => ({
 	// tslint:disable-next-line:no-any
-	setLocale: (value: string): Action<string> => dispatch(setLocale(value) as any)
+	setLocale: (value: string): Action<string> => dispatch(setLocale(value) as any),
+	setToken: (value: string): Action<string> => dispatch(setToken(value))
 });
 
 export const SignInUpConnected: ComponentClass<IExternalProps> = connect(

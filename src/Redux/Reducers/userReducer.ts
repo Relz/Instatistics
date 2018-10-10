@@ -4,8 +4,17 @@ import { UserActionType } from '../ActionTypes/UserActionType';
 import { IUserState } from '../States/UserState/IUserState';
 import { UserState } from '../States/UserState/UserState';
 import { BaseReducer } from './BaseReducer';
+import { User } from '../../Models/User/User';
 
 const baseReducer: BaseReducer<IUserState> = new BaseReducer<IUserState>(new UserState());
+
+baseReducer.handleAction(
+	UserActionType.AddAccount,
+	(userState: IUserState, action: Action<IAccount>): IUserState => ({
+		...userState,
+		accounts: action.payload === undefined ? userState.accounts : [...userState.accounts, action.payload]
+	})
+);
 
 baseReducer.handleAction(
 	UserActionType.SetAccounts,
@@ -24,11 +33,16 @@ baseReducer.handleAction(
 );
 
 baseReducer.handleAction(
-	UserActionType.AddAccount,
-	(userState: IUserState, action: Action<IAccount>): IUserState => ({
-		...userState,
-		accounts: action.payload === undefined ? userState.accounts : [...userState.accounts, action.payload]
-	})
+	UserActionType.SetToken,
+	(userState: IUserState, action: Action<string>): IUserState => {
+		const token: string = action.payload === undefined ? '' : action.payload;
+		localStorage.setItem('token', token);
+
+		return {
+			...userState,
+			user: new User(userState.user.login, token)
+		};
+	}
 );
 
 // tslint:disable-next-line: no-any
