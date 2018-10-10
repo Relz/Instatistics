@@ -36,10 +36,11 @@ import * as styles from './App.pcss';
 
 interface IExternalProps {}
 
-interface IDefaultProps extends IExternalProps {}
+interface IDefaultProps extends IExternalProps {
+	accounts: IAccount[];
+}
 
 interface IReduxProps extends IDefaultProps {
-	accounts: IAccount[];
 	activeAccountIndex?: number;
 	drawerOpened: boolean;
 	locale: string;
@@ -56,7 +57,9 @@ interface IInternalState {
 }
 
 class App extends Component<IExternalProps, IInternalState, ActualProps> {
-	public static readonly defaultProps: IDefaultProps = {};
+	public static readonly defaultProps: IDefaultProps = {
+		accounts: []
+	};
 
 	private static readonly languagesNames: string[] = ['en', 'ru'];
 
