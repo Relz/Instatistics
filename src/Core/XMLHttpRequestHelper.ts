@@ -1,11 +1,14 @@
 import { ActionAlias1 } from './Delegates/ActionAliases';
 
 export class XMLHttpRequestHelper {
+	private static readonly _okCode: number = 200;
+	private static readonly _badRequestCode: number = 400;
 	public static request<TRequest, TResponse = string>(
 		method: 'GET' | 'POST',
 		url: string,
 		content?: TRequest,
-		callback?: ActionAlias1<TResponse | string>,
+		successCallback?: ActionAlias1<TResponse | string>,
+		failureCallback?: ActionAlias1<TResponse | string>,
 		errorCallback?: ActionAlias1<ProgressEvent>
 	): void {
 		XMLHttpRequestHelper.requestBase(
@@ -13,14 +16,15 @@ export class XMLHttpRequestHelper {
 			url,
 			content,
 			(response: string): void => {
-				if (callback !== undefined) {
+				if (successCallback !== undefined) {
 					try {
-						callback(JSON.parse(response) as TResponse);
+						successCallback(JSON.parse(response) as TResponse);
 					} catch (error) {
-						callback(response);
+						successCallback(response);
 					}
 				}
 			},
+			failureCallback,
 			errorCallback
 		);
 	}
@@ -29,7 +33,8 @@ export class XMLHttpRequestHelper {
 		method: 'GET' | 'POST',
 		url: string,
 		content?: TRequest,
-		callback?: ActionAlias1<string>,
+		successCallback?: ActionAlias1<string>,
+		failureCallback?: ActionAlias1<string>,
 		errorCallback?: ActionAlias1<ProgressEvent>
 	): void {
 		const request: XMLHttpRequest = new XMLHttpRequest();
@@ -37,16 +42,20 @@ export class XMLHttpRequestHelper {
 		request.open(method, url, true);
 		// tslint:disable-next-line:only-arrow-functions
 		request.onload = function(): void {
-			if (this.status >= 200 && this.status < 400) {
-				callback && callback(this.response as string);
-			} else {
-				// We reached our target server, but it returned an error
+			if (this.status >= XMLHttpRequestHelper._okCode && this.status < XMLHttpRequestHelper._badRequestCode) {
+				if (successCallback !== undefined) {
+					successCallback(this.response as string);
+				}
+			} else if (failureCallback !== undefined) {
+				failureCallback(this.response as string);
 			}
 		};
 
 		// tslint:disable-next-line:only-arrow-functions
 		request.onerror = function(progressEvent: ProgressEvent): void {
-			errorCallback && errorCallback(progressEvent);
+			if (errorCallback !== undefined) {
+				errorCallback(progressEvent);
+			}
 		};
 
 		request.setRequestHeader('Access-Control-Allow-Origin', '*');

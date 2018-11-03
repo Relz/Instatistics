@@ -11,7 +11,13 @@ export interface ITranslation {
 	page_addAccount_form_login_label: string;
 	page_addAccount_form_password_label: string;
 	page_addAccount_title: string;
+	page_signInUp_form_login_helper_duplicate: string;
+	page_signInUp_form_login_helper_invalid: string;
+	page_signInUp_form_login_helper_textLength: string;
+	page_signInUp_form_login_helper_textRules: string;
 	page_signInUp_form_login_label: string;
+	page_signInUp_form_password_helper_textLength: string;
+	page_signInUp_form_password_helper_textRules: string;
 	page_signInUp_form_password_label: string;
 	page_signInUp_form_signInUpButton_disabledHelpText: string;
 	page_signInUp_form_signInButton_text: string;

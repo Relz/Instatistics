@@ -3,7 +3,27 @@
 	"language": "en, ru",
 	"import": ["node_modules/cspell-dict-russian/cspell-ext.json"],
 	// Always considered correct
-	"words": ["devtools", "Middlewares", "Instatistics"],
+	"words": [
+		"devtools",
+		"Middlewares",
+		"Instatistics",
+		"заполните",
+		"аккаунта",
+		"зарегистрирован",
+		"системе",
+		"логина",
+		"символов",
+		"пароля",
+		"разных",
+		"символа",
+		"нижнего",
+		"регистра",
+		"верхнего",
+		"цифру",
+		"добавьте",
+		"показа",
+		"статистики"
+	],
 	// Always considered incorrect
 	"flagWords": []
 }

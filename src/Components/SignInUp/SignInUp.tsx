@@ -1,9 +1,3 @@
-import * as React from 'react';
-import HelpIcon from '@material-ui/icons/Help';
-import { ComponentClass } from 'react';
-import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
-import { IState } from '../../Redux/States/IState';
-import { Component } from '../Component';
 import {
 	Button,
 	FormHelperText,
@@ -15,23 +9,30 @@ import {
 	TextField,
 	Typography
 } from '@material-ui/core';
-import { setLocale, Translate } from 'react-redux-i18n';
-import autobind from 'autobind-decorator';
-import * as styles from './SignInUp.pcss';
-import { StringHelper } from '../../Core/StringHelper';
-import classNames from 'classnames';
 import { InsertChart } from '@material-ui/icons';
-import { ActionAlias } from '../../Core/Delegates/ActionAliases';
-import { Action } from 'redux-actions';
+import HelpIcon from '@material-ui/icons/Help';
+import autobind from 'autobind-decorator';
+import classNames from 'classnames';
+import * as React from 'react';
+import { ComponentClass } from 'react';
+import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
+import { setLocale, Translate } from 'react-redux-i18n';
 import { Dispatch } from 'redux';
+import { Action } from 'redux-actions';
+import { ActionAlias } from '../../Core/Delegates/ActionAliases';
+import { StringHelper } from '../../Core/StringHelper';
 import { XMLHttpRequestHelper } from '../../Core/XMLHttpRequestHelper';
 import { setToken } from '../../Redux/Actions/UserActions';
+import { IState } from '../../Redux/States/IState';
+import { Component } from '../Component';
+import * as styles from './SignInUp.pcss';
 
 interface IExternalProps {}
 
 interface IDefaultProps extends IExternalProps {}
 
 interface IReduxProps extends IDefaultProps {
+	// tslint:disable-next-line:no-any
 	i18n: any;
 	setLocale(value: string): void;
 	setToken(value: string): void;
@@ -41,7 +42,9 @@ type ActualProps = IReduxProps;
 
 interface IInternalState {
 	name: string;
+	nameHelperText: string;
 	password: string;
+	passwordHelperText: string;
 	showSignInUpDisablingExplanation: boolean;
 }
 
@@ -57,7 +60,9 @@ class SignInUp extends Component<IExternalProps, IInternalState, ActualProps> {
 
 		this.state = {
 			name: '',
+			nameHelperText: '',
 			password: '',
+			passwordHelperText: '',
 			showSignInUpDisablingExplanation: false
 		};
 
@@ -114,6 +119,12 @@ class SignInUp extends Component<IExternalProps, IInternalState, ActualProps> {
 									margin="normal"
 									required={true}
 									className={styles.input}
+									helperText={
+										this.properties.i18n.translations[this.properties.i18n.locale][
+											this.state.nameHelperText
+										]
+									}
+									error={!StringHelper.isEmpty(this.state.nameHelperText)}
 								/>
 							</Grid>
 							<Grid item={true}>
@@ -129,6 +140,12 @@ class SignInUp extends Component<IExternalProps, IInternalState, ActualProps> {
 									margin="normal"
 									required={true}
 									className={styles.input}
+									helperText={
+										this.properties.i18n.translations[this.properties.i18n.locale][
+											this.state.passwordHelperText
+										]
+									}
+									error={!StringHelper.isEmpty(this.state.passwordHelperText)}
 								/>
 							</Grid>
 							<Grid
@@ -288,7 +305,7 @@ class SignInUp extends Component<IExternalProps, IInternalState, ActualProps> {
 
 	@autobind
 	private handleSignInButtonClick(): void {
-		const data = {
+		const data: object = {
 			email: this.state.name,
 			password: this.state.password
 		};
@@ -299,15 +316,37 @@ class SignInUp extends Component<IExternalProps, IInternalState, ActualProps> {
 			(token: string): void => {
 				this.properties.setToken(token);
 			},
-			(progressEvent: ProgressEvent): void => {
-				console.log(progressEvent);
+			(failCode: string): void => {
+				let nameHelperText: string = '';
+				let passwordHelperText: string = '';
+				switch (failCode) {
+					case '0':
+						nameHelperText = 'page_signInUp_form_login_helper_invalid';
+						passwordHelperText = '';
+						break;
+					case '1':
+						nameHelperText = 'page_signInUp_form_login_helper_textLength';
+						passwordHelperText = 'page_signInUp_form_password_helper_textLength';
+						break;
+					default:
+						nameHelperText = 'page_signInUp_form_login_helper_textRules';
+						passwordHelperText = 'page_signInUp_form_password_helper_textRules';
+				}
+				if (failCode.includes('DuplicateUserName')) {
+					nameHelperText = 'page_signInUp_form_login_helper_duplicate';
+					passwordHelperText = '';
+				}
+				this.setState({
+					nameHelperText: nameHelperText,
+					passwordHelperText: passwordHelperText
+				});
 			}
 		);
 	}
 
 	@autobind
 	private handleSignUpButtonClick(): void {
-		const data = {
+		const data: object = {
 			email: this.state.name,
 			password: this.state.password
 		};
@@ -318,8 +357,26 @@ class SignInUp extends Component<IExternalProps, IInternalState, ActualProps> {
 			(token: string): void => {
 				this.properties.setToken(token);
 			},
-			(progressEvent: ProgressEvent): void => {
-				console.log(progressEvent);
+			(failCode: string): void => {
+				let nameHelperText: string = '';
+				let passwordHelperText: string = '';
+				switch (failCode) {
+					case '1':
+						nameHelperText = 'page_signInUp_form_login_helper_textLength';
+						passwordHelperText = 'page_signInUp_form_password_helper_textLength';
+						break;
+					default:
+						nameHelperText = 'page_signInUp_form_login_helper_textRules';
+						passwordHelperText = 'page_signInUp_form_password_helper_textRules';
+				}
+				if (failCode.includes('DuplicateUserName')) {
+					nameHelperText = 'page_signInUp_form_login_helper_duplicate';
+					passwordHelperText = '';
+				}
+				this.setState({
+					nameHelperText: nameHelperText,
+					passwordHelperText: passwordHelperText
+				});
 			}
 		);
 	}
