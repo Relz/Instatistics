@@ -16,6 +16,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import MenuIcon from '@material-ui/icons/Menu';
 import autobind from 'autobind-decorator';
 import classNames from 'classnames';
+import { History } from 'history';
 import * as React from 'react';
 import { ComponentClass } from 'react';
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
@@ -51,13 +52,15 @@ interface IReduxProps extends IDefaultProps {
 	setToken(value: string): void;
 }
 
-type ActualProps = IReduxProps;
+interface IActualProps extends IReduxProps {
+	history: History;
+}
 
 interface IInternalState {
 	pageTitle: string;
 }
 
-class App extends Component<IExternalProps, IInternalState, ActualProps> {
+class App extends Component<IExternalProps, IInternalState, IActualProps> {
 	public static readonly defaultProps: IDefaultProps = {
 		accounts: []
 	};
@@ -222,6 +225,7 @@ class App extends Component<IExternalProps, IInternalState, ActualProps> {
 
 	@autobind
 	private handleSignOutClick(): void {
+		this.properties.history.push('');
 		this.properties.setToken('');
 	}
 
