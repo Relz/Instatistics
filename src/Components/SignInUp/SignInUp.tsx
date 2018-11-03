@@ -84,7 +84,7 @@ class SignInUp extends Component<IExternalProps, IInternalState, ActualProps> {
 						</Typography>
 					</div>
 				</Grid>
-				<Paper className={styles.form} elevation={1}>
+				<Paper className={styles.form}>
 					<Grid
 						item={true}
 						container={true}
@@ -290,14 +290,14 @@ class SignInUp extends Component<IExternalProps, IInternalState, ActualProps> {
 	}
 
 	@autobind
-	private handleNameChange(event: any): void {
+	private handleNameChange(event: React.ChangeEvent<HTMLInputElement>): void {
 		this.setState({
 			name: event.target.value
 		});
 	}
 
 	@autobind
-	private handlePasswordChange(event: any): void {
+	private handlePasswordChange(event: React.ChangeEvent<HTMLInputElement>): void {
 		this.setState({
 			password: event.target.value
 		});

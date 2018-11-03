@@ -50,6 +50,8 @@
 		"no-unsafe-any": false,
 		"strict-boolean-expressions": false,
 		"match-default-export-name": false,
+		"no-string-literal": false,
+		"no-magic-numbers": [true, 0, 8, 16, 24, 32, 40],
 
 		// Custom rules
 		"ascii-only": false,
@@ -108,7 +110,7 @@
 				"import": ["always"]
 			}
 		],
-		"max-params": [true, 5],
+		"max-params": [true, 7],
 		"prefer-literal": [true, "object", "function", "array"],
 
 		// Disabled tslint rules

@@ -1,15 +1,15 @@
 import * as React from 'react';
+import { ComponentClass } from 'react';
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
-import { IState } from '../../Redux/States/IState';
+import { withRouter } from 'react-router';
+import { Dispatch } from 'redux';
+import { Action } from 'redux-actions';
 import { StringHelper } from '../../Core/StringHelper';
+import { setToken } from '../../Redux/Actions/UserActions';
+import { IState } from '../../Redux/States/IState';
 import { AppConnected } from '../App/App';
 import { Component } from '../Component';
 import { SignInUpConnected } from '../SignInUp/SignInUp';
-import { ComponentClass } from 'react';
-import { Action } from 'redux-actions';
-import { setToken } from '../../Redux/Actions/UserActions';
-import { Dispatch } from 'redux';
-import { withRouter } from 'react-router';
 
 interface IExternalProps {}
 
@@ -54,4 +54,5 @@ const mapDispatchToProps: MapDispatchToProps<Partial<IReduxProps>, IExternalProp
 export const AuthorizationManagerConnected: ComponentClass<IExternalProps> = withRouter(connect(
 	mapStateToProps,
 	mapDispatchToProps
+	// tslint:disable-next-line:no-any
 )(AuthorizationManager) as any);

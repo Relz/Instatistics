@@ -1,21 +1,23 @@
 import { Button, FormHelperText, Grid, IconButton, TextField } from '@material-ui/core';
 import HelpIcon from '@material-ui/icons/Help';
+import autobind from 'autobind-decorator';
 import classNames from 'classnames';
 import * as React from 'react';
 import { ComponentClass } from 'react';
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Translate } from 'react-redux-i18n';
+import { FunctionHelper } from '../../Core/FunctionHelper';
 import { StringHelper } from '../../Core/StringHelper';
 import { IState } from '../../Redux/States/IState';
 import { Component } from '../Component';
 import * as styles from './AddAccountPage.pcss';
-import autobind from 'autobind-decorator';
 
 interface IExternalProps {}
 
 interface IDefaultProps extends IExternalProps {}
 
 interface IReduxProps extends IDefaultProps {
+	// tslint:disable-next-line:no-any
 	i18n: any;
 }
 
@@ -115,14 +117,14 @@ class AddAccountPage extends Component<IExternalProps, IInternalState, ActualPro
 	}
 
 	@autobind
-	private handleNameChange(event: any): void {
+	private handleNameChange(event: React.ChangeEvent<HTMLInputElement>): void {
 		this.setState({
 			name: event.target.value
 		});
 	}
 
 	@autobind
-	private handlePasswordChange(event: any): void {
+	private handlePasswordChange(event: React.ChangeEvent<HTMLInputElement>): void {
 		this.setState({
 			password: event.target.value
 		});
@@ -130,7 +132,7 @@ class AddAccountPage extends Component<IExternalProps, IInternalState, ActualPro
 
 	@autobind
 	private handleAddButtonClick(): void {
-		console.log('Send add account request');
+		FunctionHelper.noop();
 	}
 
 	@autobind

@@ -250,7 +250,7 @@ const mapDispatchToProps: MapDispatchToProps<Partial<IReduxProps>, IExternalProp
 	setDrawerOpened: (value: boolean): Action<boolean> => dispatch(setDrawerOpened(value)),
 	// tslint:disable-next-line:no-any
 	setLocale: (value: string): Action<string> => dispatch(setLocale(value) as any),
-	setToken: (value: string): Action<string> => dispatch(setToken(value) as any)
+	setToken: (value: string): Action<string> => dispatch(setToken(value))
 });
 
 export const AppConnected: ComponentClass<IExternalProps> = withRouter(connect(

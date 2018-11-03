@@ -1,10 +1,10 @@
 import { Action, Reducer } from 'redux-actions';
 import { IAccount } from '../../Models/Account/IAccount';
+import { User } from '../../Models/User/User';
 import { UserActionType } from '../ActionTypes/UserActionType';
 import { IUserState } from '../States/UserState/IUserState';
 import { UserState } from '../States/UserState/UserState';
 import { BaseReducer } from './BaseReducer';
-import { User } from '../../Models/User/User';
 
 const baseReducer: BaseReducer<IUserState> = new BaseReducer<IUserState>(new UserState());
 
