@@ -6,6 +6,9 @@ export interface ITranslation {
 	drawer_menu_signOut: string;
 	language_en: string;
 	language_ru: string;
+	metric_name_comments: string;
+	metric_name_likes: string;
+	metric_name_photo_views: string;
 	page_addAccount_form_addButton_disabledHelpText: string;
 	page_addAccount_form_addButton_text: string;
 	page_addAccount_form_login_label: string;
