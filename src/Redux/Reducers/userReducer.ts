@@ -1,5 +1,8 @@
 import { Action, Reducer } from 'redux-actions';
+import { ArrayHelper } from '../../Core/ArrayHelper';
+import { Account } from '../../Models/Account/Account';
 import { IAccount } from '../../Models/Account/IAccount';
+import { IStatistics } from '../../Models/Statistics/IStatistics';
 import { User } from '../../Models/User/User';
 import { UserActionType } from '../ActionTypes/UserActionType';
 import { IUserState } from '../States/UserState/IUserState';
@@ -22,6 +25,27 @@ baseReducer.handleAction(
 		...userState,
 		accounts: action.payload === undefined ? [] : action.payload
 	})
+);
+
+baseReducer.handleAction(
+	UserActionType.SetAccountStatistics,
+	(userState: IUserState, action: Action<IStatistics>): IUserState => {
+		const newAccounts: IAccount[] = userState.accounts;
+		if (action.payload !== undefined) {
+			const accountIndex: number = newAccounts.findIndex(
+				(account: IAccount): boolean => action.payload !== undefined && account.login === action.payload.login
+			);
+			if (accountIndex !== ArrayHelper.indexNotFound) {
+				const account: IAccount = newAccounts[accountIndex];
+				newAccounts[accountIndex] = new Account(account.login, account.password, action.payload.metrics);
+			}
+		}
+
+		return {
+			...userState,
+			accounts: newAccounts
+		};
+	}
 );
 
 baseReducer.handleAction(
