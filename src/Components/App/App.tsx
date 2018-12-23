@@ -32,6 +32,7 @@ import { setAccounts, setActiveAccountIndex, setToken } from '../../Redux/Action
 import { IState } from '../../Redux/States/IState';
 import { AddAccountPageConnected } from '../AddAccountPage/AddAccountPage';
 import { Component } from '../Component';
+import { StatisticsPageConnected } from '../StatisticsPage/StatisticsPage';
 import { WelcomePageConnected } from '../WelcomePage/WelcomePage';
 import * as styles from './App.pcss';
 
@@ -83,9 +84,9 @@ class App extends Component<IExternalProps, IInternalState, IActualProps> {
 		);
 
 		this.properties.setAccounts([
-			new Account('login1', 'password1'),
-			new Account('login2', 'password2'),
-			new Account('login3', 'password3')
+			new Account('login1', 'password1', []),
+			new Account('login2', 'password2', []),
+			new Account('login3', 'password3', [])
 		]);
 	}
 
@@ -200,6 +201,7 @@ class App extends Component<IExternalProps, IInternalState, IActualProps> {
 					<div className={styles.drawerHeader} />
 					<Route exact={true} path="/" component={WelcomePageConnected} />
 					<Route path="/add_account" component={AddAccountPageConnected} />
+					<Route path="/statistics" component={StatisticsPageConnected} />
 				</main>
 			</div>
 		);
