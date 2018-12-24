@@ -5,6 +5,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = merge(baseConfig, {
+	mode: 'production',
 	output: {
 		path: path.resolve(__dirname, '../../build'),
 		filename: '[name].bundle.[chunkhash].js'
