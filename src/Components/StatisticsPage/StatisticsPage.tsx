@@ -5,6 +5,7 @@ import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Action } from 'redux-actions';
 import { StringHelper } from '../../Core/StringHelper';
+import { XMLHttpRequestHelper } from '../../Core/XMLHttpRequestHelper';
 import { IAccount } from '../../Models/Account/IAccount';
 import { IStatistics } from '../../Models/Statistics/IStatistics';
 import { IMetric } from '../../Models/Statistics/Metric/IMetric';
@@ -20,6 +21,7 @@ interface IReduxProps extends IDefaultProps {
 	account?: IAccount;
 	// tslint:disable-next-line:no-any
 	i18n: any;
+	token: string;
 	setAccountStatistics(value: IStatistics): void;
 }
 
@@ -35,16 +37,28 @@ class StatisticsPage extends Component<IExternalProps, IInternalState, ActualPro
 
 		this.state = {};
 
-		this.properties.setAccountStatistics({
-			login: 'login1',
-			metrics: [
-				{
-					name: 'metric_name_likes',
-					values: [1, 2, 3],
-					dateTimes: [new Date(), new Date(), new Date()]
+		if (this.properties.account !== undefined) {
+			XMLHttpRequestHelper.request<undefined, any>(
+				'GET',
+				`http://localhost:5001/statistics?accountLogin=${this.properties.account.login}`,
+				this.properties.token,
+				undefined,
+				(response: string | any): void => {
+					console.log(response);
+					if (this.properties.account === undefined) {
+						return;
+					}
+					const responsedAccountMetrics: any = response as any;
+					this.properties.setAccountStatistics({
+						login: this.properties.account.login,
+						metrics: responsedAccountMetrics.metric
+					});
+				},
+				(failCode: string): void => {
+					console.log(`Cannot get statistics, fail code: ${failCode}`);
 				}
-			]
-		});
+			);
+		}
 	}
 
 	public render(): JSX.Element {
@@ -128,7 +142,8 @@ const mapStateToProps: MapStateToProps<Partial<IReduxProps>, IExternalProps, ISt
 
 	return {
 		account: account,
-		i18n: state.i18n
+		i18n: state.i18n,
+		token: state.user.user.token
 	};
 };
 
