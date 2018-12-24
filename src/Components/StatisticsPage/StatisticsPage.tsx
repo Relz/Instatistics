@@ -1,18 +1,16 @@
-import { Typography } from '@material-ui/core';
-import Paper from '@material-ui/core/Paper/Paper';
+import ReactEcharts from 'echarts-for-react-typescript';
 import * as React from 'react';
 import { ComponentClass } from 'react';
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
-import { Translate } from 'react-redux-i18n';
 import { Dispatch } from 'redux';
 import { Action } from 'redux-actions';
+import { StringHelper } from '../../Core/StringHelper';
 import { IAccount } from '../../Models/Account/IAccount';
 import { IStatistics } from '../../Models/Statistics/IStatistics';
+import { IMetric } from '../../Models/Statistics/Metric/IMetric';
 import { setAccountStatistics } from '../../Redux/Actions/UserActions';
 import { IState } from '../../Redux/States/IState';
 import { Component } from '../Component';
-import { Scale } from '@devexpress/dx-react-chart';
-import { Chart, ArgumentAxis, ValueAxis, SplineSeries } from '@devexpress/dx-react-chart-material-ui';
 
 interface IExternalProps {}
 
@@ -41,7 +39,7 @@ class StatisticsPage extends Component<IExternalProps, IInternalState, ActualPro
 			login: 'login1',
 			metrics: [
 				{
-					metricName: 'metric_name_likes',
+					name: 'metric_name_likes',
 					values: [1, 2, 3],
 					dateTimes: [new Date(), new Date(), new Date()]
 				}
@@ -51,31 +49,73 @@ class StatisticsPage extends Component<IExternalProps, IInternalState, ActualPro
 
 	public render(): JSX.Element {
 		console.log(this.properties.account);
-		const chartData: any[] = [
-			{ month: 'Jan', count: 50 },
-			{ month: 'Feb', count: 100 },
-			{ month: 'March', count: 150 },
-			{ month: 'April', count: 300 },
-			{ month: 'May', count: 300 },
-			{ month: 'June', count: 450 }
-		];
 
-		return (
-			<div>
-				<Typography variant="title" noWrap={true}>
-					<Translate value="service_name" />
-				</Typography>
-				<Paper>
-					<Chart data={chartData} width={650} height={500}>
-						<ArgumentAxis showGrids />
-						<ValueAxis />
+		return <ReactEcharts option={this.getTotalChart()} />;
+	}
 
-						<SplineSeries valueField="month" argumentField="count" />
+	private getTotalChart(): any {
+		return {
+			legend: {
+				data: this.computeLegend()
+			},
+			series: this.computeSeries(),
+			title: {
+				text: this.properties.i18n.translations[this.properties.i18n.locale]['statistics_total_chart_title']
+			},
+			toolbox: {
+				feature: {
+					saveAsImage: {}
+				}
+			},
+			tooltip: {
+				trigger: 'axis'
+			},
+			xAxis: [
+				{
+					data: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+					type: 'time'
+				}
+			],
+			yAxis: [
+				{
+					type: 'value'
+				}
+			]
+		};
+	}
 
-						<Scale />
-					</Chart>
-				</Paper>
-			</div>
+	private computeSeries(): any[] {
+		if (this.properties.account === undefined) {
+			return [];
+		}
+		console.log(
+			this.properties.account.metrics.map(
+				(metric: IMetric): any => ({
+					areaStyle: { normal: {} },
+					data: metric.values.map(StringHelper.toString),
+					name: this.properties.i18n.translations[this.properties.i18n.locale][metric.name],
+					type: 'line'
+				})
+			)
+		);
+
+		return this.properties.account.metrics.map(
+			(metric: IMetric): any => ({
+				areaStyle: { normal: {} },
+				data: metric.values,
+				name: this.properties.i18n.translations[this.properties.i18n.locale][metric.name],
+				type: 'line'
+			})
+		);
+	}
+
+	private computeLegend(): any[] {
+		if (this.properties.account === undefined) {
+			return [];
+		}
+
+		return this.properties.account.metrics.map(
+			(metric: IMetric): string => this.properties.i18n.translations[this.properties.i18n.locale][metric.name]
 		);
 	}
 }
@@ -85,9 +125,10 @@ const mapStateToProps: MapStateToProps<Partial<IReduxProps>, IExternalProps, ISt
 ): Partial<IReduxProps> => {
 	const account: IAccount | undefined =
 		state.user.activeAccountIndex === undefined ? undefined : state.user.accounts[state.user.activeAccountIndex];
+
 	return {
-		i18n: state.i18n,
-		account: account
+		account: account,
+		i18n: state.i18n
 	};
 };
 
