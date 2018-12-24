@@ -1,5 +1,5 @@
 export interface IMetric {
-	metricName: string;
+	name: string;
 	values: number[];
 	dateTimes: Date[];
 }

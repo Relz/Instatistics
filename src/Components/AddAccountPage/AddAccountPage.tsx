@@ -6,8 +6,13 @@ import * as React from 'react';
 import { ComponentClass } from 'react';
 import { connect, MapDispatchToProps, MapStateToProps } from 'react-redux';
 import { Translate } from 'react-redux-i18n';
-import { FunctionHelper } from '../../Core/FunctionHelper';
+import { Dispatch } from 'redux';
+import { Action } from 'redux-actions';
 import { StringHelper } from '../../Core/StringHelper';
+import { XMLHttpRequestHelper } from '../../Core/XMLHttpRequestHelper';
+import { Account } from '../../Models/Account/Account';
+import { IAccount } from '../../Models/Account/IAccount';
+import { setAccounts } from '../../Redux/Actions/UserActions';
 import { IState } from '../../Redux/States/IState';
 import { Component } from '../Component';
 import * as styles from './AddAccountPage.pcss';
@@ -19,6 +24,8 @@ interface IDefaultProps extends IExternalProps {}
 interface IReduxProps extends IDefaultProps {
 	// tslint:disable-next-line:no-any
 	i18n: any;
+	token: string;
+	setAccounts(value: IAccount[]): void;
 }
 
 type ActualProps = IReduxProps;
@@ -132,7 +139,45 @@ class AddAccountPage extends Component<IExternalProps, IInternalState, ActualPro
 
 	@autobind
 	private handleAddButtonClick(): void {
-		FunctionHelper.noop();
+		const data: object = {
+			accessToken: '',
+			login: this.state.name,
+			password: this.state.password,
+			socialNetworkAccountId: 0,
+			tokenLifetime: ''
+		};
+
+		XMLHttpRequestHelper.request(
+			'POST',
+			'http://localhost:5001/accounts',
+			this.properties.token,
+			data,
+			(response: string): void => {
+				console.log(response);
+				XMLHttpRequestHelper.request<undefined, any[]>(
+					'GET',
+					'http://localhost:5001/accounts',
+					this.properties.token,
+					undefined,
+					(response: string | any[]): void => {
+						console.log(response);
+						const responsedAccounts: any[] = response as any[];
+						this.properties.setAccounts(
+							responsedAccounts.map(
+								(responsedAccount: any): IAccount =>
+									new Account(responsedAccount.login, responsedAccount.password, [])
+							)
+						);
+					},
+					(failCode: string): void => {
+						console.log(`Cannot get instagram accounts, fail code: ${failCode}`);
+					}
+				);
+			},
+			(failCode: string): void => {
+				console.log(failCode);
+			}
+		);
 	}
 
 	@autobind
@@ -146,10 +191,15 @@ class AddAccountPage extends Component<IExternalProps, IInternalState, ActualPro
 const mapStateToProps: MapStateToProps<Partial<IReduxProps>, IExternalProps, IState> = (
 	state: IState
 ): Partial<IReduxProps> => ({
-	i18n: state.i18n
+	i18n: state.i18n,
+	token: state.user.user.token
 });
 
-const mapDispatchToProps: MapDispatchToProps<Partial<IReduxProps>, IExternalProps> = (): Partial<IReduxProps> => ({});
+const mapDispatchToProps: MapDispatchToProps<Partial<IReduxProps>, IExternalProps> = (
+	dispatch: Dispatch
+): Partial<IReduxProps> => ({
+	setAccounts: (value: IAccount[]): Action<IAccount[]> => dispatch(setAccounts(value))
+});
 
 export const AddAccountPageConnected: ComponentClass<IExternalProps> = connect(
 	mapStateToProps,

@@ -312,6 +312,7 @@ class SignInUp extends Component<IExternalProps, IInternalState, ActualProps> {
 		XMLHttpRequestHelper.request(
 			'POST',
 			'http://localhost:5001/auth/sign-in',
+			undefined,
 			data,
 			(token: string): void => {
 				this.properties.setToken(token);
@@ -353,6 +354,7 @@ class SignInUp extends Component<IExternalProps, IInternalState, ActualProps> {
 		XMLHttpRequestHelper.request(
 			'POST',
 			'http://localhost:5001/auth/sign-up',
+			undefined,
 			data,
 			(token: string): void => {
 				this.properties.setToken(token);

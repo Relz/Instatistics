@@ -6,4 +6,8 @@ export class StringHelper {
 	public static isAnyEmpty(...values: string[]): boolean {
 		return values.find(StringHelper.isEmpty) !== undefined;
 	}
+
+	public static toString(value: any): string {
+		return value.toString();
+	}
 }
