@@ -32,7 +32,8 @@ export const translations: ITranslations = {
 		page_welcome_body_add: 'Or add another one.',
 		page_welcome_body_choose: 'Choose an account to show statistics.',
 		page_welcome_title: 'Welcome to Instatistics!',
-		service_name: 'Instatistics'
+		service_name: 'Instatistics',
+		statistics_total_chart_title: 'Combined metrics'
 	},
 	ru: {
 		drawer_menu_addAccount: 'Добавить аккаунт',
@@ -65,6 +66,7 @@ export const translations: ITranslations = {
 		page_welcome_body_add: 'Или добавьте новый.',
 		page_welcome_body_choose: 'Выберите аккаунт для показа статистики.',
 		page_welcome_title: 'Добро пожаловать в Instatistics!',
-		service_name: 'Instatistics'
+		service_name: 'Instatistics',
+		statistics_total_chart_title: 'Скомбинированные метрики'
 	}
 };

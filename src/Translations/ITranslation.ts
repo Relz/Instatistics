@@ -31,4 +31,5 @@ export interface ITranslation {
 	page_welcome_body_choose: string;
 	page_welcome_title: string;
 	service_name: string;
+	statistics_total_chart_title: string;
 }
