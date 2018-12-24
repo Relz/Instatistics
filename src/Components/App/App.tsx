@@ -25,6 +25,7 @@ import { Link, Route, withRouter } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { Action } from 'redux-actions';
 import { ActionAlias } from '../../Core/Delegates/ActionAliases';
+import { XMLHttpRequestHelper } from '../../Core/XMLHttpRequestHelper';
 import { Account } from '../../Models/Account/Account';
 import { IAccount } from '../../Models/Account/IAccount';
 import { setDrawerOpened } from '../../Redux/Actions/DrawerActions';
@@ -46,6 +47,7 @@ interface IReduxProps extends IDefaultProps {
 	activeAccountIndex?: number;
 	drawerOpened: boolean;
 	locale: string;
+	token: string;
 	setAccounts(value: IAccount[]): void;
 	setActiveAccountIndex(value: number | undefined): void;
 	setDrawerOpened(value: boolean): void;
@@ -83,11 +85,25 @@ class App extends Component<IExternalProps, IInternalState, IActualProps> {
 			}
 		);
 
-		this.properties.setAccounts([
-			new Account('login1', 'password1', []),
-			new Account('login2', 'password2', []),
-			new Account('login3', 'password3', [])
-		]);
+		XMLHttpRequestHelper.request<undefined, any[]>(
+			'GET',
+			'http://localhost:5001/accounts',
+			this.properties.token,
+			undefined,
+			(response: string | any[]): void => {
+				console.log(response);
+				const responsedAccounts: any[] = response as any[];
+				this.properties.setAccounts(
+					responsedAccounts.map(
+						(responsedAccount: any): IAccount =>
+							new Account(responsedAccount.login, responsedAccount.password, [])
+					)
+				);
+			},
+			(failCode: string): void => {
+				console.log(`Cannot get instagram accounts, fail code: ${failCode}`);
+			}
+		);
 	}
 
 	public render(): JSX.Element {
@@ -244,7 +260,8 @@ const mapStateToProps: MapStateToProps<Partial<IReduxProps>, IExternalProps, ISt
 	accounts: state.user.accounts,
 	activeAccountIndex: state.user.activeAccountIndex,
 	drawerOpened: state.drawer.drawerOpened,
-	locale: state.i18n.locale
+	locale: state.i18n.locale,
+	token: state.user.user.token
 });
 
 const mapDispatchToProps: MapDispatchToProps<Partial<IReduxProps>, IExternalProps> = (
