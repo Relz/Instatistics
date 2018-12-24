@@ -1,9 +1,11 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WatchIgnorePlugin = require('watch-ignore-webpack-plugin');
 
 module.exports = {
 	context: path.resolve(__dirname, '../../src'),
 
+	target: 'web',
 	node: {
 		fs: 'empty',
 		net: 'empty'
@@ -12,6 +14,10 @@ module.exports = {
 	entry: './index.tsx',
 
 	resolve: {
+		modules: [
+			"node_modules",
+			path.resolve(__dirname, "../../")
+		],
 		extensions: ['.ts', '.tsx', '.js', '.css']
 	},
 
@@ -44,6 +50,9 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			template: 'assets/index.html',
 			inject: 'body'
-		})
+		}),
+		new WatchIgnorePlugin([
+			/css\.d\.ts$/
+		]),
 	]
 };

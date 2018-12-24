@@ -1,15 +1,19 @@
+const path = require('path');
 const merge = require('webpack-merge');
 const baseConfig = require('./base.config.js');
+const webpack = require('webpack');
 
 module.exports = merge(baseConfig, {
 	mode: 'development',
 	devtool: 'cheap-module-source-map',
 
 	devServer: {
-		contentBase: './src',
+		contentBase: path.join(__dirname, '../../src'),
 		inline: true,
 		quiet: false,
-		stats: { colors: true }
+		stats: { colors: true },
+		hot: true,
+		noInfo: false
 	},
 
 	module: {
@@ -23,14 +27,18 @@ module.exports = merge(baseConfig, {
 						loader: 'typings-for-css-modules-loader',
 						options: {
 							importLoaders: 1,
-							sourceMap: true,
 							modules: true,
-							namedExport: true
+							namedExport: true,
+							sourceMap: true
 						}
 					},
 					'postcss-loader'
 				]
 			}
 		]
-	}
+	},
+
+	plugins: [
+		new webpack.HotModuleReplacementPlugin()
+	]
 });
