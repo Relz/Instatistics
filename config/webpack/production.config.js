@@ -39,6 +39,10 @@ module.exports = merge(baseConfig, {
 		}
 	},
 
+	performance: {
+		hints: false
+	},
+
 	plugins: [
 		new CompressionPlugin()
 	]
