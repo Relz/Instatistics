@@ -3,22 +3,24 @@ import { ActionAlias1 } from './Delegates/ActionAliases';
 export class XMLHttpRequestHelper {
 	private static readonly _okCode: number = 200;
 	private static readonly _badRequestCode: number = 400;
-	public static request<TRequest, TResponse = string>(
+	public static request<TRequest, TSuccessResponse = string, TFailureResponse = string>(
 		method: 'GET' | 'POST',
 		url: string,
+		token?: string,
 		content?: TRequest,
-		successCallback?: ActionAlias1<TResponse | string>,
-		failureCallback?: ActionAlias1<TResponse | string>,
+		successCallback?: ActionAlias1<TSuccessResponse | string>,
+		failureCallback?: ActionAlias1<TFailureResponse | string>,
 		errorCallback?: ActionAlias1<ProgressEvent>
 	): void {
 		XMLHttpRequestHelper.requestBase(
 			method,
 			url,
+			token,
 			content,
-			(response: string): void => {
+			(response: any): void => {
 				if (successCallback !== undefined) {
 					try {
-						successCallback(JSON.parse(response) as TResponse);
+						successCallback(response as TSuccessResponse);
 					} catch (error) {
 						successCallback(response);
 					}
@@ -32,6 +34,7 @@ export class XMLHttpRequestHelper {
 	private static requestBase<TRequest>(
 		method: 'GET' | 'POST',
 		url: string,
+		token?: string,
 		content?: TRequest,
 		successCallback?: ActionAlias1<string>,
 		failureCallback?: ActionAlias1<string>,
@@ -58,9 +61,14 @@ export class XMLHttpRequestHelper {
 			}
 		};
 
-		request.setRequestHeader('Access-Control-Allow-Origin', '*');
 		if (method === 'POST') {
+			request.setRequestHeader('Access-Control-Allow-Origin', '*');
 			request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+		}
+		if (token !== undefined) {
+			request.setRequestHeader('Access-Control-Allow-Credentials', 'true');
+			request.withCredentials = true;
+			request.setRequestHeader('Authorization', `Bearer ${token}`);
 		}
 
 		request.send(JSON.stringify(content));
